@@ -36,7 +36,7 @@ services:
     volumes:
       - ./resources/kowl/kowl-config.yaml:/etc/kowl/kowl-config.yaml
     ports:
-      - "8080:8080"
+      - "4040:4040"
     entrypoint: ./kowl --config.filepath=/etc/kowl/kowl-config.yaml
     depends_on:
       - kafka
@@ -55,6 +55,21 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./resources/grafana:/var/lib/grafana
     depends_on:
       - prometheus
+
+  maven-quarkus:
+    image: maven
+    volumes:
+      - "./kafka-simple:/app"
+      - "~/.m2:/root/.m2"
+    environment:
+      JAVA_OPTIONS: "-Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+    depends_on:
+      - kafka
+    ports:
+      - "8888:8888"
+      - "5888:5888"
+    working_dir: /app
+    command: "./mvnw compile quarkus:dev -DdebugHost=0.0.0.0"
