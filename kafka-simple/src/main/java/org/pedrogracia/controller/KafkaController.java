@@ -24,11 +24,11 @@ public class KafkaController {
 
     @GET
     @Path("/produce/{iterations}")
-    public Response send(@PathParam("iterations") Double iterations) {
+    public Response send(@PathParam("iterations") int iterations) {
 
-        String message = "{\"ERROR\": \"Please set a correct number of iterations\"}";
+        String message = "{\"ERROR\": \"Please set a correct number of iterations. Expected value between 1 and " + MAX_ITERATIONS + "\"}";
 
-        if (iterations == null || Double.isNaN(iterations) || iterations < 1 || iterations > (double) MAX_ITERATIONS) {
+        if (Double.isNaN(iterations) || iterations < 1 || iterations > MAX_ITERATIONS) {
             return Response
                     .status(Response.Status.NOT_ACCEPTABLE)
                     .entity(message)
