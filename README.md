@@ -3,13 +3,14 @@ This is a very simple docker environment focused on first steps on kafka.
 
 The docker file will deploy on your host machine all necessary assets to start with kafka and it features. Those assets are:
 
-|Name                                      |Vendor       |Target                               |
-|------------------------------------------|-------------|-------------------------------------|
-|[Zookeeper](https://zookeeper.apache.org) |Confluent    |Distributed coordination service     |
-|[kafka](https://kafka.apache.org)         |Confluent    |Distributed event streaming platform |
-|[Kowl](https://cloudhut.dev)              |Cloudhut     |Apache Kafka Client Web UI           |
-|[Prometheus](https://prometheus.io)       |Prometheus   |Monitoring system                    |
-|[Grafana](https://grafana.com)            |Grafana Labs |Operational dashboard for monitoring |
+|Name                                      |Vendor       |Target                                  |
+|------------------------------------------|-------------|----------------------------------------|
+|[Zookeeper](https://zookeeper.apache.org) |Confluent    |Distributed coordination service        |
+|[kafka](https://kafka.apache.org)         |Confluent    |Distributed event streaming platform    |
+|[Kowl](https://cloudhut.dev)              |Cloudhut     |Apache Kafka Client Web UI              |
+|[Prometheus](https://prometheus.io)       |Prometheus   |Monitoring system                       |
+|[Grafana](https://grafana.com)            |Grafana Labs |Operational dashboard for monitoring    |
+|[Maven](https://grafana.com)              |Apache       |Project build based for Quarkus project |
 
 In addition an extra maven distribution image with a very simple project (`kafka-simple`) based on [Quarkus-JVM](https://quarkus.io) with a producer & consumer services for a dummy iteration of messages.
 
@@ -46,5 +47,28 @@ These are the available web portals for all software images deployed:
 |Simple Project   |http://localhost:8888/q/swagger-ui |Play with API Rest endpoint               |
 
 # Tips
-- You can find a complete Grafana dashboard into the content. Go to folder `resources/grafana/dashboard-template` and check for file *kafka-metrics.json* to import
-- In Grafana, configure a new Data source for Prometheus. Set the following into `URL` field: `http://host.docker.internal:9090`
+- You can find a complete Grafana dashboard into the content. Go to folder `resources/grafana/dashboard-template` and check for file `kafka-metrics.json` to import.
+- In Grafana, configure a new Data source for Prometheus. Set the following into `URL` field: `http://host.docker.internal:9090`.
+- Play with `kowl` client to check kafka topic `events` with message produced.
+- Check with `Grafana` dashboard different panels about Kafka, Zookeeper and JVM behaviour
+
+# Shutting down
+Execute the following command in a terminal window to shutdown docker containers:
+
+`docker-compose -f "docker-compose.yaml" down`
+
+When a docker container is created, several volumes for persisting data are created. To remove them execute the following command from a terminal window:
+
+`docker volume prune`
+
+Networking containers in docker drivers is focused on connection through network drivers. To remove them execute in a terminal window the following command:
+
+`docker network prune`
+
+Images are the containers defined in your docker-compose file. In a terminal window, execute the following to remove them:
+
+`docker image prune`
+
+If you want to prune all information from docker (images, container, network), you can execute the following command in a terminal window:
+
+`docker system prune --all`
