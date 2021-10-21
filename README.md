@@ -26,6 +26,8 @@ Once you have all git content in your host, execute the following commands (Dock
 
 > It is not necessary to set -f parameter but to ensure the file is executed.
 
+> Be patient, images content must be downloaded properly. This can take a while.
+
 Chek the output of the command. All container has been deployed properly (all of them `Running` and `Started`):
 
 ![Container Deployment images](./_images/container_deployment.png)
@@ -51,6 +53,21 @@ These are the available web portals for all software images deployed:
 - In Grafana, configure a new Data source for Prometheus. Set the following into `URL` field: `http://host.docker.internal:9090`.
 - Play with `kowl` client to check kafka topic `events` with message produced.
 - Check with `Grafana` dashboard different panels about Kafka, Zookeeper and JVM behaviour
+
+# How to play
+Open in a web browser the swagger url related to `kafka-simple` project:
+
+`http://localhost:8888/q/swagger-ui/`
+
+You can check that there is an endpoint `/kakfa-simple/produce/{iterations}` to set a number of iterations to produce random messages. Random message are generated with a random string on key and value. Try it using `Try it out` button. 
+
+You can also execute the request with the following command:
+
+`curl -X 'GET' \
+  'http://localhost:8888/kafka-simple/produce/1000' \
+  -H 'accept: */*'`
+
+> You have to inform about the number of message to be produced. In the previous sentence `1000` is the number of iterations (message to be produced)
 
 # Shutting down
 Execute the following command in a terminal window to shutdown docker containers:
